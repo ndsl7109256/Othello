@@ -11,7 +11,7 @@ int flip(int row,int col,int flip,int color,int board[][8]){
 
   /*check empty*/
   if(board[row][col] != 0){
-    printf("has stone on it\n");
+    //printf("has stone on it\n");
     return 0;//illegal
   }
 
@@ -24,7 +24,7 @@ int flip(int row,int col,int flip,int color,int board[][8]){
       if( board[i][col] == color ){
         legal = 1;
         if( !flip ){
-          printf("AA\n");
+          //printf("AA\n");
           return legal;
         }
         for(int j = i + 1;j<row;++j){
@@ -44,7 +44,7 @@ int flip(int row,int col,int flip,int color,int board[][8]){
       if( board[i][col] == color ){
         legal = 1;
         if( !flip ){
-          printf("AA\n");
+          //printf("AA\n");
           return legal;
         }
         for(int j = i - 1;j>row;--j){
@@ -63,7 +63,7 @@ int flip(int row,int col,int flip,int color,int board[][8]){
       if( board[row][i] == color ){
         legal = 1;
         if( !flip ){
-          printf("AA\n");
+          //printf("AA\n");
           return legal;
         }
         for(int j = i - 1;j>col;--j){
@@ -83,7 +83,7 @@ int flip(int row,int col,int flip,int color,int board[][8]){
       if( board[row][i] == color ){
         legal = 1;
         if( !flip ){
-          printf("AA\n");
+          //printf("AA\n");
           return legal;
         }
         for(int j = i + 1;j<col;++j){
@@ -167,9 +167,19 @@ int flip(int row,int col,int flip,int color,int board[][8]){
       }
     }
   }
-  
+  if( legal ){
+    board[row][col] = color;
+  }
+  return legal;
 }
-
+int countcolor(int color,int board[][8]){
+  int number = 0;
+  for(int i = 0;i<64;i++){
+    if( *(*board+i) == color )
+      ++number;
+  }
+  return number;
+}
 
 void printboard(int board[][8]){
   printf("  | 0 1 2 3 4 5 6 7\n");
@@ -199,14 +209,79 @@ int main(){
   board[4][3] = 1;
   printboard(board);
   int row,col;
+  int color,opp_color;
   int turn = 1;
-  printf("turn is %d\n",turn);
-  while(scanf("%d %d",&row,&col) ){
-    flip(row,col,1,turn,board);
-    board[row][col] = turn;
-    printboard(board);
-    turn = turn ^ 3;
-    printf("turn is %d\n",turn);
+  int move = 4;
+  int pass = 0;
+  while((move++) < 64){
+
+    printf("turn of %d\n",turn);
+
+    if(turn == 1){
+      int pass_flag = 1;
+      /*check pass or not*/
+      for(int i = 0;i<8;i++){
+        for(int j = 0;j<8;j++){
+          if( flip(i,j,0,turn,board ) )
+            pass_flag = 0;//has legal move
+        }
+      }
+      if(pass_flag){
+        printf("PASS\n");
+        ++pass;
+        turn = turn ^ 3;
+        --move;
+        continue;
+      }
+      pass = 0;
+      while( scanf("%d %d",&row,&col) ){
+        if( row>7 || col > 7){
+          printf("87= =\n");
+          continue;
+        }
+        if( flip(row,col,1,turn,board) ){
+          printboard(board);
+          printf("1: %d 2: %d\n",countcolor(1,board),countcolor(2,board));
+          turn = turn ^ 3;
+          break;
+        }else{
+          printf("87 = =\n");
+        }
+      }
+    }else if(turn == 2){
+      int pass_flag = 1;
+      /*check pass or not*/
+      for(int i = 0;i<8;i++){
+        for(int j = 0;j<8;j++){
+          if( flip(i,j,0,turn,board) )
+            pass_flag = 0;//has legal move
+        }
+      }
+      if(pass_flag){
+        printf("PASS\n");
+        ++pass;
+        turn = turn ^ 3;
+        --move;
+        continue;
+      }
+      pass = 0;
+      while( scanf("%d %d",&row,&col) ){
+        if( row>7 || col > 7){
+          printf("87= =\n");
+          continue;
+        }
+        if( flip(row,col,1,turn,board) ){
+          printboard(board);
+          printf("1: %d 2: %d\n",countcolor(1,board),countcolor(2,board));
+          turn = turn ^ 3;
+          break;
+        }else{
+          printf("87 = =\n");
+        }
+      }
+    }
   }
+
+
 }
 
