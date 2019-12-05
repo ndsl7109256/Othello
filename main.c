@@ -1,6 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const int weight[64] = {4, -3, 2, 2, 2, 2, -3, 4,
+               -3, -4, -1, -1, -1, -1, -4, -3,
+               2, -1, 1, 0, 0, 1, -1, 2,
+               2, -1, 0, 1, 1, 0, -1, 2,
+               2, -1, 0, 1, 1, 0, -1, 2,
+               2, -1, 1, 0, 0, 1, -1, 2,
+               -3, -4, -1, -1, -1, -1, -4, -3,
+               4, -3, 2, 2, 2, 2, -3, 4};
+
 void printboard(int board[][8]);
 
 unsigned long long board[3];//0:null 1:black 2:white
@@ -214,6 +223,12 @@ int main(){
   int move = 4;
   int pass = 0;
   while((move++) < 64){
+
+	/*no move and end game*/
+	if(pass == 2){
+		printf("No move 88\n");
+		break;
+	}
 
     printf("turn of %d\n",turn);
 
