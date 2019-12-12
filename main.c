@@ -257,6 +257,19 @@ void init(){
 int main(){
   int turn = 1;
   printf("player first 1,computer first 2\n");
+  int first = 0;
+  int color,com_color;
+  if(first ){//computer first control black;
+    com_color = 1;
+    color = 2;
+    turn = 2;
+  }else{
+    color = 1;
+    com_color = 2;
+    turn = 1;
+  }
+  
+  
   int board[8][8];
   for(int i = 0;i<64;i++){
     *(*board+i) = 0;
@@ -267,7 +280,6 @@ int main(){
   board[4][3] = 1;
   printboard(board);
   int row,col;
-  int color,opp_color;
   int move = 4;
   int pass = 0;
   while((move++) < 64){
@@ -285,7 +297,7 @@ int main(){
       /*check pass or not*/
       for(int i = 0;i<8;i++){
         for(int j = 0;j<8;j++){
-          if( flip(i,j,0,turn,board ) )
+          if( flip(i,j,0,color,board ) )
             pass_flag = 0;//has legal move
         }
       }
@@ -302,7 +314,7 @@ int main(){
           printf("87= =\n");
           continue;
         }
-        if( flip(row,col,1,turn,board) ){
+        if( flip(row,col,1,color,board) ){
           printboard(board);
           printf("1: %d 2: %d\n",countcolor(1,board),countcolor(2,board));
           turn = turn ^ 3;
@@ -328,8 +340,8 @@ int main(){
       int t;
       for(int i = 0;i<8;i++){
         for(int j = 0;j<8;j++){
-          if( board[i][j] == 0 && flip(i,j,1,turn,temp_board) ){
-            t = -alpha_beta_cut(-beta,-m,opp_color,temp_board,depth + 1 );
+          if( board[i][j] == 0 && flip(i,j,1,com_color,temp_board) ){
+            t = -alpha_beta_cut(-beta,-m,color,temp_board,depth + 1 );
             pass_flag = 0;
           
             if( t > m){
@@ -352,7 +364,7 @@ int main(){
         continue;
       }
       pass = 0;
-      if( flip(move_row,move_col,1,turn,board) ){
+      if( flip(move_row,move_col,1,com_color,board) ){
           printboard(board);
           printf("move at %d %d\n",move_row,move_col);
           printf("1: %d 2: %d\n",countcolor(1,board),countcolor(2,board));
