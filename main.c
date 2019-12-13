@@ -3,17 +3,18 @@
 #include <string.h>
 
 
-#define DEPTH 5
+#define DEPTH 8
 #define HEURISTIC mobility - opp_mobility + board_score
 
-const int weight[64] = {4, -3, 2, 2, 2, 2, -3, 4,
-               -3, -4, -1, -1, -1, -1, -4, -3,
-               2, -1, 1, 0, 0, 1, -1, 2,
-               2, -1, 0, 1, 1, 0, -1, 2,
-               2, -1, 0, 1, 1, 0, -1, 2,
-               2, -1, 1, 0, 0, 1, -1, 2,
-               -3, -4, -1, -1, -1, -1, -4, -3,
-               4, -3, 2, 2, 2, 2, -3, 4};
+const int weight[64] = { 6,-3, 4, 3, 3, 4,-3, 6,
+                        -3,-4, 2,-1,-1, 2,-4,-3,
+                         4, 2, 2, 0, 0, 2, 2, 4,
+                         3,-1, 0, 3, 3, 0,-1, 3,
+                         3,-1, 0, 3, 3, 0,-1, 3,
+                         4, 2, 2, 0, 0, 2, 2, 4,
+                        -3,-4, 2,-1,-1, 2,-4,-3,
+                         6,-3, 4, 3, 3, 4,-3, 6
+                        };
 
 void printboard(int board[][8]);
 int flip(int row,int col,int flip,int color,int board[][8]);
